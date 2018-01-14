@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Novos anúncios OLX</title>
+
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
+
+  <script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
+
+</head>
+<body>
+  <div class="center aligned container">
+    <h1>Novos anúncios na OLX</h1>
+
+    <div class="ui cards">
+
+      {% for ad in ad_list %}
+        <div class="ui card">
+          <div class="image">
+            <a href="{{ ad.url }}"><img src="{{ ad.image }}"></a>
+          </div>
+          <div class="content">
+            <a class="header" href="{{ ad.url }}">{{ ad.label }}</a>
+            <div class="meta">
+              <span class="date">{{ ad.details }}</span>
+            </div>
+            <div class="description">
+              R$ {{ ad.price }}
+            </div>
+          </div>
+          <div class="extra content">
+            <a>
+              <i class="marker icon"></i>
+              {{ ad.region }}
+            </a>
+          </div>
+        </div>
+      {% endfor %}
+
+    </div>
+
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,13 @@
+[settings]
+
+
+DEBUG=false
+SECRET_KEY=4cn68iga94@**2x9vb1f*-104pe%*-u-%#%1wh!r(+mjiza@y$
+
+CSRF_ENABLED = True
+CSRF_SESSION_KEY = "4cn68iga94@**2x9vb1f*-104pe$a%*-u-%4#%1wha!r(+m@y$"
+
+SQLALCHEMY_TRACK_MODIFICATIONS=True
+
+MAIL_USERNAME=
+MAIL_PASSWORD=

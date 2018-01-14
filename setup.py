@@ -1,0 +1,33 @@
+from setuptools import setup
+
+setup(
+    name='olx_discover',
+    packages=['olx_discover'],
+    include_package_data=True,
+    install_requires=[
+        'flask',
+        'amqp',
+        'billiard',
+        'blinker',
+        'celery',
+        'certifi',
+        'chardet',
+        'click',
+        'Flask',
+        'Flask-Mail',
+        'Flask-SQLAlchemy',
+        'idna',
+        'itsdangerous',
+        'Jinja2',
+        'kombu',
+        'lxml',
+        'MarkupSafe',
+        'pytz',
+        'requests',
+        'SQLAlchemy',
+        'urllib3',
+        'vine',
+        'Werkzeug',
+        'python-decouple'
+    ],
+)
