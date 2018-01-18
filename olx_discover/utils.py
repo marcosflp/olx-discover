@@ -51,7 +51,11 @@ class OlxDiscover(object):
         for ad in ad_list:
 
             # check if exists if not create a new
-            ad_instance = Ad.query.filter_by(url=ad['url']).first()
+            ad_instance = Ad.query.filter(
+                (Ad.url == ad['url'])
+                | (Ad.image == ad['image'])
+            ).first()
+
             if ad_instance is None:
                 new_ad = Ad(
                     url=ad['url'],

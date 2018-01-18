@@ -185,3 +185,4 @@ venv.bak/
 
 *.db
 settings.ini
+celerybeat-schedule

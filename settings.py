@@ -30,6 +30,7 @@ MAIL_USERNAME = config('MAIL_USERNAME', default='', cast=str)
 MAIL_PASSWORD = config('MAIL_PASSWORD', default='', cast=str)
 MAIL_USE_TLS = False
 MAIL_USE_SSL = True
+MAIL_DEFAULT_SENDER = 'flask@cloudatlas.org'
 
 
 # Celery
@@ -63,9 +64,18 @@ dictConfig({
             'formatter': 'simple',
             'filename': '/var/log/flask/debug.log',
         },
+        'email': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.SMTPHandler',
+            'mailhost': (MAIL_SERVER, MAIL_PORT),
+            'fromaddr': MAIL_DEFAULT_SENDER,
+            'toaddrs': ADMINS,
+            'subject': 'Flask: Internal Server Error',
+            'credentials': (MAIL_USERNAME, MAIL_PASSWORD),
+        },
     },
     'root': {
         'level': 'INFO',
-        'handlers': ['wsgi', 'file-debug']
+        'handlers': ['wsgi', 'file-debug', 'email']
     }
 })
