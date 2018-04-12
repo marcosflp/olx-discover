@@ -37,6 +37,7 @@ MAIL_DEFAULT_SENDER = 'flask@cloudatlas.org'
 
 CELERY_BROKER_URL = 'amqp://guest@localhost//'
 result_backend = 'amqp://guest@localhost//'
+timezone = 'America/Sao_Paulo'
 
 
 # Logging

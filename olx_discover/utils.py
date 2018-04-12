@@ -91,7 +91,7 @@ class OlxDiscover(object):
             if not (600 <= ad['price'] <= 1600):
                 return False
 
-            forbidden_words = ['alugo', 'procuro', 'preciso', 'temporada', 'busco']
+            forbidden_words = ['procuro', 'preciso', 'temporada', 'busco']
             for word in forbidden_words:
                 if word in ad['label'].lower():
                     return False
