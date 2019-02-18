@@ -5,7 +5,7 @@ celery==4.1.0
 certifi==2017.11.5
 chardet==3.0.4
 click==6.7
-Flask==0.12.2
+Flask==1.0.2
 Flask-Mail==0.9.1
 Flask-SQLAlchemy==2.3.2
 idna==2.6
@@ -16,8 +16,8 @@ lxml==4.1.1
 MarkupSafe==1.0
 python-decouple==3.1
 pytz==2017.3
-requests==2.18.4
+requests==2.21.0
 SQLAlchemy==1.2.0
-urllib3==1.22
+urllib3==1.24.1
 vine==1.1.4
 Werkzeug==0.14.1
