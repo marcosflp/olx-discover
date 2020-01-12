@@ -91,7 +91,10 @@ class OlxDiscover(object):
             if not (600 <= ad['price'] <= 1600):
                 return False
 
-            forbidden_words = ['procuro', 'preciso', 'temporada', 'busco']
+            forbidden_words = [
+                'procuro', 'preciso', 'temporada', 'busco', 'acadepol',
+                'mensal', 'prf', 'até dezembro'
+            ]
             for word in forbidden_words:
                 if word in ad['label'].lower():
                     return False
@@ -106,6 +109,46 @@ class OlxDiscover(object):
                 valid_ads.append(adv)
 
         return valid_ads
+
+    def fetch_ad_car_detail(self):
+        ads_instance_list = self.fetch_ads()
+
+        for ad_instance in ads_instance_list:
+            response = requests.get(ad_instance['url'])
+            if not response.ok:
+                raise ValueError(f'Response not ok with url {ad_instance["url"]}')
+
+            # Fetch the data
+
+            root_node = html.fromstring(response.text)
+            ad_car_dict = {
+                'price': root_node.xpath('//span[@class="actual-price"]/text()'),
+                'model': root_node.xpath('//div[2]/div[4]/main/div/div[3]/div[1]/div[2]/div[4]/div[1]/div/ul/li[2]/p/strong/a/text()'),
+                'motor_power': root_node.xpath('//div[2]/div[4]/main/div/div[3]/div[1]/div[2]/div[4]/div[1]/div/ul/li[3]/p/strong/text()'),
+                'doors': root_node.xpath('//div[2]/div[4]/main/div/div[3]/div[1]/div[2]/div[4]/div[1]/div/ul/li[4]/p/strong/text()'),
+                'type': root_node.xpath('//div[2]/div[4]/main/div/div[3]/div[1]/div[2]/div[4]/div[1]/div/ul/li[6]/p/strong/text()'),
+                'year': root_node.xpath('//div[2]/div[4]/main/div/div[3]/div[1]/div[2]/div[4]/div[1]/div/ul/li[7]/p/strong/a/text()'),
+                'fuel': root_node.xpath('//div[2]/div[4]/main/div/div[3]/div[1]/div[2]/div[4]/div[1]/div/ul/li[8]/p/strong/a/text()'),
+                'km': root_node.xpath('//div[2]/div[4]/main/div/div[3]/div[1]/div[2]/div[4]/div[1]/div/ul/li[9]/p/strong/text()'),
+                'Cor': root_node.xpath('//div[2]/div[4]/main/div/div[3]/div[1]/div[2]/div[4]/div[1]/div/ul/li[12]/p/strong/text()'),
+                'description': root_node.xpath('//div[2]/div[4]/main/div/div[3]/div[1]/div[2]/div[2]/p')[0].text_content(),
+                'photos': root_node.xpath('//div[@class="photos"]//li//a/@href'),
+                'inserted_date': root_node.xpath('//div[2]/div[4]/main/div/div[2]/div[1]/div[2]/p/text()')
+            }
+
+            # Parse the data
+            ad_car_dict['price'] = int(re.search(r'[\d\.\,]+', root_node.xpath('//span[@class="actual-price"]/text()')[0])[0].replace('.', ''))
+            ad_car_dict['model'] = ad_car_dict['model'][0].strip()
+            ad_car_dict['motor_power'] = ad_car_dict['motor_power'][0].strip()
+            ad_car_dict['doors'] = ad_car_dict['doors'][0].strip()
+            ad_car_dict['type'] = ad_car_dict['type'][0].strip()
+            ad_car_dict['year'] = int(ad_car_dict['year'][0].strip())
+            ad_car_dict['fuel'] = ad_car_dict['fuel'][0].strip()
+            ad_car_dict['km'] = ad_car_dict['km'][0].strip()
+            ad_car_dict['Cor'] = ad_car_dict['Cor'][0].strip()
+            ad_car_dict['description'] = ad_car_dict['description'][0].strip()
+            ad_car_dict['photos'] = ad_car_dict['photos']
+            ad_car_dict['inserted_date'] = ad_car_dict['inserted_date'][0].strip()
 
     def fetch_ads(self):
         ads_instance_list = list()
@@ -135,7 +178,7 @@ class OlxDiscover(object):
 
             for ad_etree in ads_list:
                 url_list = ad_etree.xpath('.//@href')
-                label_list = ad_etree.xpath('.//h3[contains(@class, "OLXad-list-title")]/text()')
+                label_list = ad_etree.xpath('.//h2[contains(@class, "OLXad-list-title")]/text()')
                 price_list = ad_etree.xpath('.//p[@class="OLXad-list-price"]/text()')
                 details_list = ad_etree.xpath('.//p[contains(@class, "detail-specific")]/text()')
                 region_list = ad_etree.xpath('.//p[contains(@class, "detail-region")]/text()')

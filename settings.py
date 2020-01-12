@@ -63,7 +63,7 @@ dictConfig({
             'class': 'logging.handlers.RotatingFileHandler',
             'maxBytes': 16777216,  # 16MB
             'formatter': 'simple',
-            'filename': '/var/log/flask/debug.log',
+            'filename': os.path.join(BASEDIR, 'logs/olx_discover-debug.log'),
         },
         'email': {
             'level': 'ERROR',
